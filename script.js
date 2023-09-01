@@ -41,10 +41,11 @@ const setVideos = async (categoryID) => {
 
     const videosContainer = document.getElementById(`videos-container`);
     videosContainer.textContent = ``;
+    let timeSpan = document.querySelector(`.image-div span`);
     
     // checking category have any data or not? 
 
-    if(data.status === false){
+    if(data.status === false || data.data.length === 0){
         const notFoundBanner = document.getElementById(`not-found-banner`);
         notFoundBanner.classList.remove(`hidden`);
         return;
@@ -59,10 +60,10 @@ const setVideos = async (categoryID) => {
         div.className = `video-card  space-y-5`;
         div.innerHTML = ` 
         
-        <div class="relative">
+        <div class="relative image-div">
         <img class="rounded-lg" src="${video.thumbnail
         }">
-        <span class="absolute right-3 bottom-3 text-gray-300 text-sm bg-black p-1 rounded-md">3hrs 56 min ago</span>
+        <span class="absolute right-3 bottom-3 text-gray-300 text-sm bg-black p-1 rounded-md ${video.others.posted_date? "": 'hidden' } "> ${video.others.posted_date? secondsToTime(video.others.posted_date): '' } </span>
     </div>
     <div class="flex items-start gap-3">
         <img class="w-12 rounded-full" src="${video.authors[0].profile_picture}">
@@ -79,4 +80,12 @@ const setVideos = async (categoryID) => {
 
 
 
+// convert seconds to original time
+
+ const secondsToTime = (seconds) =>{
+    let getMinutes = Math.round(seconds / 60);
+    let hours = Math.floor(getMinutes / 60);
+    let correctMinutes = getMinutes % 60;
+    return `${hours}hrs ${correctMinutes} min ago`;
+ }
 
