@@ -41,8 +41,8 @@ const setVideos = async (categoryID) => {
 
     const videosContainer = document.getElementById(`videos-container`);
     videosContainer.textContent = ``;
-    let timeSpan = document.querySelector(`.image-div span`);
-    
+  
+
     // checking category have any data or not? 
 
     if(data.status === false || data.data.length === 0){
@@ -54,15 +54,32 @@ const setVideos = async (categoryID) => {
         notFoundBanner.classList.add(`hidden`);
     }
 //  set videos
-    data.data.forEach(video => {
-        
+    createVideos(data.data);
+//  sortArrayByViews(data.data);
+
+ const sortBtn = document.getElementById(`sort-btn`);
+ sortBtn.addEventListener(`click`, ()=>{
+    
+    if(videosContainer.textContent === ``){
+        return;
+    }
+    sortArrayByViews(data.data);
+    createVideos(data.data);
+})
+
+
+   function createVideos (videosArray){
+
+    videosContainer.textContent = ``;
+
+        videosArray.forEach(video => {
+        // console.log(video)
         let div = document.createElement(`div`);
-        div.className = `video-card  space-y-5`;
+        div.className = `video-card space-y-5`;
         div.innerHTML = ` 
         
         <div class="relative image-div">
-        <img class="rounded-lg" src="${video.thumbnail
-        }">
+        <img class="rounded-lg" src="${video.thumbnail}">
         <span class="absolute right-3 bottom-3 text-gray-300 text-sm bg-black p-1 rounded-md ${video.others.posted_date? "": 'hidden' } "> ${video.others.posted_date? secondsToTime(video.others.posted_date): '' } </span>
     </div>
     <div class="flex items-start gap-3">
@@ -76,7 +93,14 @@ const setVideos = async (categoryID) => {
 
     videosContainer.appendChild(div);
     })
+   }
 }
+
+
+
+
+
+
 
 
 
@@ -88,4 +112,33 @@ const setVideos = async (categoryID) => {
     let correctMinutes = getMinutes % 60;
     return `${hours}hrs ${correctMinutes} min ago`;
  }
+
+
+
+
+ const sortArrayByViews = (array) => {
+    array.sort((a, b) =>{
+    let firstValue = parseFloat(a.others.views.slice(0, a.others.views.length - 1));
+   let secondsValue = parseFloat(b.others.views.slice(0, b.others.views.length - 1));
+   return secondsValue - firstValue;
+})
+}
+
+
+
+
+//  const names = [
+//     {views: `100K`},
+//     {views : `40K`},
+//     {views:`576K` },
+//     {views:`200K`},
+//     {views:`900K`},
+//     {views:`200K`},
+//     {views:`200K`}
+//  ]
+
+
+
+// console.log(names)
+
 
