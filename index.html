@@ -7,26 +7,36 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@3.6.4/dist/full.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://kit.fontawesome.com/6e6416f0d9.js" crossorigin="anonymous"></script>
+    <Style>
+        .active{
+            color:white;
+            background-color: rgb(241, 26, 26) !important;
+        }
+
+    </Style>
 </head>
 <body>
-    <header class="w-[92%] h-24 lg:h-28 mx-auto flex justify-between items-center border-b">
-        <img src="assets/Logo.png">
+    <header class="w-[88%] md:w-[92%] h-24 lg:h-28 mx-auto flex justify-between items-center border-b">
+        <a href="index.html"> <img class="w-32 md:w-44" src="assets/Logo.png"></a>
         <button id="sort-btn" class="btn bg-zinc-300 capitalize">Sort by view</button>
-        <button class="btn bg-red-500 text-white capitalize hover:bg-red-600">Blog</button>
+       <a href="questions.html"> <button class="btn bg-red-500 text-white capitalize hover:bg-red-600">Blog</button></a>
     </header>
 
     <!-- main section -->
-    <main class="w-[92%] mx-auto my-3 md:my-8">
+    <main class="w-[88%] md:w-[92%] mx-auto my-3 md:my-8">
 
+        <!-- category buttons container -->
         <div id="buttons-container" class="flex justify-center gap-3 md:gap-5 mb-3 md:mb-5 lg:mb-10">
            
         </div>
 
-        <section id="videos-container" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+        <!-- all videos container -->
+        <section id="videos-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
 
             
         </section>
 
+        <!-- data not found indicator -->
         <div id="not-found-banner" class="w-60 lg:w-96 text-center mx-auto space-y-5 mt-5 lg:mt-12 hidden">
             <img class="mx-auto w-[90px] md:w-[100px] lg:w-[140px]" src="assets/Icon.png">
             <h1 class="text-xl md:text-2xl lg:text-3xl font-bold">Oops!! Sorry, There is no content here</h1>

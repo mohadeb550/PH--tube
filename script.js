@@ -15,18 +15,24 @@ const setData = (categoriesArray) => {
     const buttonsContainer = document.getElementById(`buttons-container`);
     categoriesArray.forEach(category => {
         let button = document.createElement(`button`);
-        button.className = `btn bg-zinc-200 text-base capitalize btn-category`;
+        button.className = `px-4 py-2 bg-zinc-200 rounded-md capitalize btn-category`;
         button.id = category.category_id;
         button.innerText = category.category;
         buttonsContainer.appendChild(button);
     });
 //  set all category as a default
     setVideos(`1000`);
+    document.getElementById(`1000`).classList.add(`active`);
 
     // set event listener on categories buttons with id
     const categoryButtons = document.querySelectorAll(`.btn-category`);
     categoryButtons.forEach(button => {
         button.addEventListener(`click`, function(e){
+
+            document.querySelector(`#buttons-container .active`)?.classList.remove(`active`);
+            const sortBtn = document.getElementById(`sort-btn`).classList.remove(`active`);
+            e.target.classList.add(`active`);
+
             setVideos(e.target.id);
         })
     })
@@ -41,7 +47,7 @@ const setVideos = async (categoryID) => {
 
     const videosContainer = document.getElementById(`videos-container`);
     videosContainer.textContent = ``;
-  
+
 
     // checking category have any data or not? 
 
@@ -55,11 +61,11 @@ const setVideos = async (categoryID) => {
     }
 //  set videos
     createVideos(data.data);
-//  sortArrayByViews(data.data);
 
+// sort button event handler
  const sortBtn = document.getElementById(`sort-btn`);
  sortBtn.addEventListener(`click`, ()=>{
-    
+    sortBtn.classList.add(`active`)
     if(videosContainer.textContent === ``){
         return;
     }
@@ -67,6 +73,7 @@ const setVideos = async (categoryID) => {
     createVideos(data.data);
 })
 
+    // create videos and append into container
 
    function createVideos (videosArray){
 
@@ -78,12 +85,14 @@ const setVideos = async (categoryID) => {
         div.className = `video-card space-y-5`;
         div.innerHTML = ` 
         
-        <div class="relative image-div">
-        <img class="rounded-lg" src="${video.thumbnail}">
+        <div class="relative image-div sm:h-[160px] h-[205px] md:h-[213px] lg:h-[250px] ">
+        <div style="background:url(${video.thumbnail}); background-size:cover;" class="h-full rounded-lg">
+            
+        </div>
         <span class="absolute right-3 bottom-3 text-gray-300 text-sm bg-black p-1 rounded-md ${video.others.posted_date? "": 'hidden' } "> ${video.others.posted_date? secondsToTime(video.others.posted_date): '' } </span>
     </div>
     <div class="flex items-start gap-3">
-        <img class="w-12 rounded-full" src="${video.authors[0].profile_picture}">
+        <img class="w-[45px] h-[45px] object-cover rounded-full" src="${video.authors[0].profile_picture}">
         <div class="space-y-1">
             <h1 class="font-bold">${video.title}</h1>
             <h1> ${video.authors[0].profile_name} ${video.authors[0].verified === true? '<i class="fa-solid fa-circle-check text-blue-500"></i>' : " "} </h1>
@@ -96,14 +105,6 @@ const setVideos = async (categoryID) => {
    }
 }
 
-
-
-
-
-
-
-
-
 // convert seconds to original time
 
  const secondsToTime = (seconds) =>{
@@ -113,32 +114,13 @@ const setVideos = async (categoryID) => {
     return `${hours}hrs ${correctMinutes} min ago`;
  }
 
-
-
+//  apply sort on categories array
 
  const sortArrayByViews = (array) => {
+    
     array.sort((a, b) =>{
     let firstValue = parseFloat(a.others.views.slice(0, a.others.views.length - 1));
    let secondsValue = parseFloat(b.others.views.slice(0, b.others.views.length - 1));
    return secondsValue - firstValue;
 })
 }
-
-
-
-
-//  const names = [
-//     {views: `100K`},
-//     {views : `40K`},
-//     {views:`576K` },
-//     {views:`200K`},
-//     {views:`900K`},
-//     {views:`200K`},
-//     {views:`200K`}
-//  ]
-
-
-
-// console.log(names)
-
-
